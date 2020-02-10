@@ -1,7 +1,6 @@
 package kr.or.ddit.alba.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import kr.or.ddit.alba.service.AlbaServiceImpl;
 import kr.or.ddit.alba.service.IAlbaService;
 import kr.or.ddit.mvc.annotation.CommandHandler;
 import kr.or.ddit.mvc.annotation.URIMapping;
-import kr.or.ddit.utils.CookieUtils;
 import kr.or.ddit.vo.AlbaVO;
 import kr.or.ddit.vo.PagingVO;
 import kr.or.ddit.vo.SearchVO;

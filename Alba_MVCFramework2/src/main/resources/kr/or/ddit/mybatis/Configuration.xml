@@ -25,6 +25,7 @@
   </environments>
   <mappers>
     <mapper resource="kr/or/ddit/mybatis/mappers/Alba.xml"/>
+    <mapper resource="kr/or/ddit/mybatis/mappers/Others.xml"/>
     
   </mappers>
 </configuration>

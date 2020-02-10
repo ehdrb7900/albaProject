@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="kr.or.ddit.alba.dao.IOtherDAO">
+
+
+	<select id="selectGradeList" resultType="GradeVO">
+		SELECT GR_CODE, GR_NAME
+		FROM GRADE
+	</select>
+
+	<select id="selectLicenseList" resultType="LicenseVO">
+		SELECT LIC_CODE, LIC_NAME
+		FROM LICENSE
+	</select>
+
+</mapper>

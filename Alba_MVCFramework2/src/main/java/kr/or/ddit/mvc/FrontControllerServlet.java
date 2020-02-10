@@ -39,7 +39,7 @@ public class FrontControllerServlet extends HttpServlet{
 		if(pkgs!=null) { //파라미터 넘어옴
 			basePackages = pkgs.split("\\s+"); //공백이 한칸이상 들어가있으면
 		}
-		
+		System.out.println("aaa");
 		String prefix = config.getInitParameter("prefix");
 		String suffix = config.getInitParameter("suffix");
 		
