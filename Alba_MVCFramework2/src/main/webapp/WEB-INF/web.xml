@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>webStudy02_MAVEN</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+  <context-param>
+  	<param-name>companyName</param-name>
+  	<param-value>204Company</param-value>
+  </context-param>
+  
+  <filter>
+	 	<filter-name>CharacterEncodingFilter</filter-name>
+	 	<filter-class> kr.or.ddit.file.CharacterEncodingFilter</filter-class>
+	 	<init-param>
+	 		<param-name>encoding</param-name>
+	 		<param-value>UTF-8</param-value>
+	 	</init-param>
+	 </filter>
+	 <filter-mapping>
+	 	<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern> 	
+	 </filter-mapping>
+	 
+  <filter>
+	 	<filter-name>FileUploadCheckFilter</filter-name>
+	 	<filter-class> kr.or.ddit.file.FileUploadCheckFilter</filter-class>
+	 </filter>
+	 <filter-mapping>
+	 	<filter-name>FileUploadCheckFilter</filter-name>
+		<url-pattern>/*</url-pattern> 	
+	 </filter-mapping>
+	 
+ <!-- 
+	 <filter>
+	 	<filter-name>FakeFilter</filter-name>
+	 	<filter-class>kr.or.ddit.web07_fileupload.filter.FakeFilter</filter-class>
+	 </filter>
+	 <filter-mapping>
+	 	<filter-name>FakeFilter</filter-name>
+		<url-pattern>/board/*</url-pattern> 	
+	 </filter-mapping>
+   -->
+<!--   <filter>
+  	<filter-name>BlindFilter</filter-name>
+  	<filter-class>kr.or.ddit.web07_fileupload.filter.BlindFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>BlindFilter</filter-name>
+	<url-pattern>/board/*</url-pattern>  
+  </filter-mapping>-->
+  
+  <servlet> 
+  	<servlet-name>FrontControllerServlet</servlet-name>
+  	<servlet-class>kr.or.ddit.mvc.FrontControllerServlet</servlet-class>
+  	<init-param>
+  		<param-name>basePakages</param-name>
+  		<param-value>
+  			kr.or.ddit
+  		</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>prefix</param-name>
+  		<param-value>/WEB-INF/views/</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>suffix</param-name>
+  		<param-value>.jsp</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  	<multipart-config>
+  		<location>d:/temp</location>
+  		<max-file-size>10240000</max-file-size>
+  		<max-request-size>102400000</max-request-size>
+  		<file-size-threshold>10240</file-size-threshold>
+  	</multipart-config>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FrontControllerServlet</servlet-name>
+	<url-pattern>*.do</url-pattern>  
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>DescriptionServlet</servlet-name>
+  	<servlet-class>kr.or.ddit.web.DescriptionServlet</servlet-class>
+  	<init-param>
+  		<param-name>testParam</param-name>
+  		<param-value>파라미터값</param-value>
+  	</init-param>
+  	<init-param>
+  		<param-name>testParam2</param-name>
+  		<param-value>파라미터값2</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DescriptionServlet</servlet-name>
+	<url-pattern>/desc</url-pattern>  	
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>ClasspathImageServlet</servlet-name>
+  	<servlet-class>kr.or.ddit.web.ClasspathImageServlet</servlet-class>
+  	<init-param>
+  		<param-name>imagePath</param-name>
+  		<param-value>/kr/or/ddit/test</param-value>
+  	</init-param>
+  	<load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ClasspathImageServlet</servlet-name>
+	<url-pattern>/image.do</url-pattern>  	
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>DirectorsServlet</servlet-name>
+  	<servlet-class>kr.or.ddit.web04_model2.DirectorsServlet</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>DirectorsServlet</servlet-name>
+	<url-pattern>/directors.do</url-pattern>  
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>FileUploadServlet</servlet-name>
+  	<servlet-class>kr.or.ddit.web07_fileupload.FileUploadServlet</servlet-class>
+  	<multipart-config>
+  		<location>d:/temp</location>
+  		<max-file-size>10240000</max-file-size>
+  		<max-request-size>102400000</max-request-size>
+  		<file-size-threshold>10240</file-size-threshold>
+  	</multipart-config>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FileUploadServlet</servlet-name>
+	<url-pattern>/fileUpload</url-pattern>  
+  </servlet-mapping>
+<!--   <jsp-config> -->
+<!--   	<jsp-property-group> -->
+<!--   		<url-pattern>*.jsp</url-pattern> -->
+<!--   		<include-prelude>/05/includeeTest.jspf</include-prelude> -->
+<!--   	</jsp-property-group> -->
+<!--   </jsp-config> -->
+<!-- 	<session-config> -->
+<!-- 		<session-timeout>2</session-timeout> -->
+<!-- 	</session-config> -->
+	
+</web-app>

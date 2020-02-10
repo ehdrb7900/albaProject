@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+<!-- appender(where) -->
+<!-- message(what) -->
+<!-- layout(how) -->
+<!-- logger(who) -->
+<!-- logging event level : debug < info < warn < error -->
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{.1} - %msg%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+   	<Logger name="jdbc.sqltiming" level="debug" additivity="false">
+	  <AppenderRef ref="Console"/>
+	</Logger>
+  	
+  	<Logger name="jdbc.resultsettable" level="debug" additivity="false">
+	  <AppenderRef ref="Console"/>
+	</Logger> 
+  
+   
+    <Root level="debug">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>

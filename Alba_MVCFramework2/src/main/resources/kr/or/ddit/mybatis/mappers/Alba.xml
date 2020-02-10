@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.alba.dao.IAlbaDAO">
+	<sql id="searchFrag">
+		<where>
+		    <if test="searchVO!=null">
+		    	<if test="@org.apache.commons.lang3.StringUtils@isNotBlank(searchVO.searchWord)">
+		    		<choose>
+		    			<when test="'title'.equals(searchVO.searchType)">
+			    			INSTR(BOARD_TITLE, #{searchVO.searchWord}) > 0
+		    			</when>
+		    			<when test="'writer'.equals(searchVO.searchType)">
+			    			INSTR(BO_WRITER, #{searchVO.searchWord}) > 0
+		    			</when>
+		    			<when test="'content'.equals(searchVO.searchType)">
+			    			INSTR(BO_CONTENT, #{searchVO.searchWord}) > 0
+		    			</when>
+		    			<otherwise>
+			    			INSTR(BOARD_TITLE, #{searchVO.searchWord}) > 0
+			    			OR INSTR(BO_WRITER, #{searchVO.searchWord}) > 0
+			    			OR INSTR(BO_CONTENT, #{searchVO.searchWord}) > 0
+		    			</otherwise>
+		    		</choose>
+		    	</if>
+		    </if>
+	    </where>
+	</sql>	
+	
+	
+	<insert id="insertAlba" parameterType="AlbaVO">
+		<selectKey resultType="String" keyProperty="al_id" order="BEFORE">
+			SELECT
+				'ALBA_' || LPAD(TO_NUMBER(NVL(substr(MAX(al_id),6),'0')) +1, 3, 0) AL_ID
+			FROM
+				ALBA;
+		</selectKey>
+		
+		INSERT INTO ALBA (
+			AL_ID, AL_NAME, AL_AGE,
+			AL_ADDRESS, AL_HP, AL_SPEC,
+			AL_DESC, GR_CODE, AL_CAREER,
+			AL_GEN, AL_BTYPE, AL_MAIL
+		) VALUES (
+			#{al_id}, #{al_name}, #{al_age}
+			, #{al_address}, #{al_hp}, #{al_spec, jdbcType=VARCHAR}
+			, #{al_desc, jdbcType=VARCHAR}, #{al_code}, #{al_career,
+			jdbcType=VARCHAR}
+			, #{al_gen}, #{al_btype}, #{al_mail}
+		)
+	</insert>
+	
+	
+	
+	<select id="selectAlbaList" resultType="AlbaVO" parameterType="PagingVO">
+		SELECT B.*
+		FROM(
+		SELECT A.*, ROWNUM RNUM
+		FROM (
+			SELECT
+			   	AL_ID, AL_NAME, AL_AGE,
+				AL_ADDRESS, AL_HP, AL_SPEC,
+				AL_DESC, GR_CODE, AL_CAREER,
+				AL_GEN, AL_BTYPE, AL_MAIL
+			FROM   ALBA
+			ORDER BY AL_ID
+		)	A	) B
+		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="selectAlbaCount" resultType="int" parameterType="PagingVO">
+		SELECT COUNT(*)
+		FROM ALBA
+		<include refid="searchFrag" />
+	</select>
+	
+ 	<resultMap type="AlbaVO" id="albaMap" autoMapping="true">
+		<id property="al_id" column="AL_ID"/>
+		<!-- has a 관계(1:1)일때 바인드방법1 -->
+		<association property="grade" javaType="GradeVO" autoMapping="true"> 
+			<result property="gr_name" column="GR_NAME"/>
+		</association>
+		
+		<collection property="licenseList" javaType="java.util.List" ofType="LicenseVO" autoMapping="true"></collection>
+	</resultMap>
+	<select id="selectAlba" parameterType="String" resultMap="albaMap">
+		 SELECT
+			    A.AL_ID,		    AL_NAME,		    AL_AGE,		    AL_ADDRESS,
+			    AL_HP,		    AL_SPEC,		    AL_DESC,		A.GR_CODE,
+			    AL_CAREER,		AL_GEN,		    	AL_BTYPE,		AL_MAIL
+			    , GR_NAME
+			    , C.LIC_CODE, LIC_NAME
+		FROM ALBA A INNER JOIN GRADE B ON (A.GR_CODE = B.GR_CODE)
+		            LEFT OUTER JOIN LIC_ALBA C ON (A.AL_ID = C.AL_ID)
+		            LEFT OUTER JOIN LICENSE D ON (C.LIC_CODE = D.LIC_CODE)
+		 	WHERE  A.AL_ID = #{al_id} 
+	
+	</select>
+
+	<delete id="deleteAlba" parameterType="AlbaVO" statementType="CALLABLE">
+		{
+			CALL DELETEALBA(#{al_id,mode=IN, javaType=String}, #{rowcnt, mode=OUT, jdbcType=INTEGER})
+		}
+	</delete>
+	
+</mapper>
